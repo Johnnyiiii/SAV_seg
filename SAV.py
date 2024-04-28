@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 
 def sav_jinsi(lamda, dt, fi):
