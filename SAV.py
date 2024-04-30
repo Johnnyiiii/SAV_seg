@@ -90,11 +90,11 @@ def tidu_qiudao(u):
     return divergence
 
 
-def AinverseOpt1(N, u, tau_n):          #这是那个逆算子，N为方图大小，u为bn,tau_n为时间步长
+def AinverseOpt1(N, bn, dt):          #这是那个逆算子，N为方图大小
     # solve u - tau*laplace u=f
-    rhs_f = np.fft.fft2(u)
+    rhs_f = np.fft.fft2(bn)
     index = np.concatenate((np.arange(0, N//2), [0], np.arange(-N//2 + 1, 0)))
     sec = -index ** 2  # Don't forget negative sign
-    temp = 1 - tau_n * (np.tile(sec, (N, 1)) + np.tile(sec.reshape(-1, 1), (1, N)))
+    temp = 1 - dt * (np.tile(sec, (N, 1)) + np.tile(sec.reshape(-1, 1), (1, N)))
     res = np.fft.ifft2(rhs_f / temp)
     return np.real(res)

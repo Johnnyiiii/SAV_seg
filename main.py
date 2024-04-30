@@ -14,7 +14,7 @@ Ru = [1, 1, 1, 1]
 
 time1 = time.time()
 
-pic = Picture("C:/Users/Administrator/Desktop/bishe/tu/niao.jpg")
+pic = Picture("C:/Users/Administrator/Desktop/bishe/tu/lu.jpg")
 pic.fenlei()
 time2 = time.time()
 pic.gray2d()
