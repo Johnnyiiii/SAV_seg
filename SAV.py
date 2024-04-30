@@ -33,7 +33,7 @@ def f_u(fi, u, lamda):
             tix_u[i - 1, j - 1] = (float(pro_u[i + 1, j]) - float(pro_u[i - 1, j])) / 2
             tiy_u[i - 1, j - 1] = (float(pro_u[i, j + 1]) - float(pro_u[i, j - 1])) / 2
     gen_u = np.sqrt(tix_u**2 + tiy_u**2)
-    return lamda*2*(fi-u)**2 - gen_u
+    return lamda*0.5*(fi-u)**2 + gen_u
 
 
 def e1_u(fi, u, lamda):
@@ -74,7 +74,7 @@ def tidu_qiudao(u):
     grad_mag = np.sqrt(tix_u**2 + tiy_u**2)
 
     # 避免除以零，将等于零的梯度模的值设为一个小正数
-    grad_mag[grad_mag == 0] = 1e-6
+    grad_mag[grad_mag == 0] = 1e-5
 
     # 计算梯度除以梯度的模
     result_x = tix_u/grad_mag   ###注意要是点除
