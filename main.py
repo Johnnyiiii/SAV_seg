@@ -6,6 +6,7 @@ import time
 import jinsi
 from pic import Picture
 import k_mean
+import SAV
 
 K = 3
 lamda = 1.5
@@ -29,13 +30,13 @@ if pic.tongdaoshu == 3:
     #     uu[i], Ru[i] = jinsi.ord_jinsi(u[i], lamda=1.5, dt=0.003) #调整lambda,时间步长dt和迭代次数
     time5 = time.time()
     #这里是计算平滑近似
-    uu[0], Ru[0] = jinsi.ord_jinsi(u[0], lamda=1.5, dt=0.005)
+    uu[0], Ru[0] = SAV.sav_jinsi(u[0], lamda=1.5, dt=0.005)
     time6 = time.time()
-    uu[1], Ru[1] = jinsi.ord_jinsi(u[1], lamda=1.5, dt=0.002)
+    uu[1], Ru[1] = SAV.sav_jinsi(u[1], lamda=1.5, dt=0.002)
     time7 = time.time()
-    uu[2], Ru[2] = jinsi.ord_jinsi(u[2], lamda=1.5, dt=0.002)
+    uu[2], Ru[2] = SAV.sav_jinsi(u[2], lamda=1.5, dt=0.002)
     time8 = time.time()
-    uu[3], Ru[3] = jinsi.ord_jinsi(u[3], lamda=1.5, dt=0.006)
+    uu[3], Ru[3] = SAV.sav_jinsi(u[3], lamda=1.5, dt=0.006)
     time9 = time.time()
     #uu = uu.astype(dtype='uint8')
 

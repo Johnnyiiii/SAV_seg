@@ -2,14 +2,22 @@ import numpy as np
 import time
 
 
-def sav_jinsi(lamda, dt, fi):
+def sav_jinsi(fi, lamda, dt):
     u = fi.astype(float)
+    m, n = u.shape
     uu = np.zeros_like(u)
     flag = 1
     while flag < 100:
-        rn = r(fi, u, lamda)                   #biaoliang
-        bn = ff_u(fi, u, lamda)/rn             #jvzhen
-        cn = u - dt*rn*bn + (dt/2)*np.sum(bn*u)*bn
+        rn = r(fi, u, lamda)                            #标量
+        bn = ff_u(fi, u, lamda)/rn                      #矩阵
+        cn = u - dt*rn*bn + (dt/2)*np.sum(bn*u)*bn      #矩阵
+        gai_bn = AinverseOpt1(m, bn, dt)
+        gai_cn = AinverseOpt1(m, cn, dt)
+        yn = neiji(bn, gai_bn)
+        bn_un1 = neiji(bn, gai_cn)/(1+dt*yn*0.5)      #得到（bn， un+1）
+        yidatuo = cn - dt*0.5*bn_un1*bn
+        uu = AinverseOpt1(m, yidatuo, dt)
+        u = uu
         flag += 1
     return uu
 
