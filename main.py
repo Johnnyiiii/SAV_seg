@@ -14,7 +14,7 @@ lamda = 1.5
 
 time1 = time.time()
 
-pic = Picture("C:/Users/Administrator/Desktop/bishe/tu/ji.jpg")
+pic = Picture("C:/Users/Administrator/Desktop/bishe/tu/hu.jpg")
 pic.fenlei()
 time2 = time.time()
 pic.gray2d()
@@ -23,41 +23,41 @@ pic.gray2IIH()
 #这三步是生成iih图像
 time4 = time.time()
 if pic.tongdaoshu == 3:
-    #u = [1-pic.Lab[:, :, 0]/255, 1-pic.Lab[:, :, 1]/255, 1-pic.Lab[:, :, 2]/255, pic.IIH]  ###改成0到1之间
-    u = [1-pic.tongdao[:, :, 0] / 255, 1-pic.tongdao[:, :, 1] / 255, 1-pic.tongdao[:, :, 2] / 255, pic.IIH]    #RGB做的
+    u = [1-pic.Lab[:, :, 0]/255, 1-pic.Lab[:, :, 1]/255, 1-pic.Lab[:, :, 2]/255, pic.IIH]  ###改成0到1之间
+    #u = [1-pic.tongdao[:, :, 0] / 255, 1-pic.tongdao[:, :, 1] / 255, 1-pic.tongdao[:, :, 2] / 255, pic.IIH]    #RGB做的
     uu = np.zeros_like(u)
     # for i in range(4): p
     #     uu[i], Ru[i] = jinsi.ord_jinsi(u[i], lamda=1.5, dt=0.003) #调整lambda,时间步长dt和迭代次数
     time5 = time.time()
     #这里是计算平滑近似
-    uu[0] = SAV.sav_jinsi(u[0], lamda=1.5, dt=0.0005)
+    uu[0] = SAV.sav_jinsi(u[0], lamda=1.5, dt=0.00003)
     time6 = time.time()
-    uu[1] = SAV.sav_jinsi(u[1], lamda=1.5, dt=0.0005)
+    uu[1] = SAV.sav_jinsi(u[1], lamda=1.5, dt=0.00003)
     time7 = time.time()
-    uu[2] = SAV.sav_jinsi(u[2], lamda=1.5, dt=0.0005)
+    uu[2] = SAV.sav_jinsi(u[2], lamda=1.5, dt=0.00003)
     time8 = time.time()
-    uu[3] = SAV.sav_jinsi(u[3], lamda=1.5, dt=0.0005)
+    uu[3] = SAV.sav_jinsi(u[3], lamda=1.5, dt=0.00003)
     time9 = time.time()
     #uu = uu.astype(dtype='uint8')
 
     #这里打印八幅图，上面是近似前，下面是近似后
-    plt.subplot(4, 2, 1)
-    plt.imshow(u[0]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
-    plt.subplot(4, 2, 2)
-    plt.imshow(u[1]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
-    plt.subplot(4, 2, 3)
-    plt.imshow(u[2]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
-    plt.subplot(4, 2, 4)
-    plt.imshow(u[3]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
-    plt.subplot(4, 2, 5)
-    plt.imshow(uu[0]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
-    plt.subplot(4, 2, 6)
-    plt.imshow(uu[1]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
-    plt.subplot(4, 2, 7)
-    plt.imshow(uu[2]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
-    plt.subplot(4, 2, 8)
-    plt.imshow(uu[3]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
-    plt.show()
+    # plt.subplot(4, 2, 1)
+    # plt.imshow(u[0]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
+    # plt.subplot(4, 2, 2)
+    # plt.imshow(u[1]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
+    # plt.subplot(4, 2, 3)
+    # plt.imshow(u[2]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
+    # plt.subplot(4, 2, 4)
+    # plt.imshow(u[3]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
+    # plt.subplot(4, 2, 5)
+    # plt.imshow(uu[0]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
+    # plt.subplot(4, 2, 6)
+    # plt.imshow(uu[1]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
+    # plt.subplot(4, 2, 7)
+    # plt.imshow(uu[2]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
+    # plt.subplot(4, 2, 8)
+    # plt.imshow(uu[3]*255, cmap=plt.cm.binary, vmin=0, vmax=255)
+    # plt.show()
     # print(Ru)
 
     # ku = np.zeros_like(uu)
@@ -69,18 +69,18 @@ if pic.tongdaoshu == 3:
         r3 = np.random.random(4)
         m, n = ku[0].shape
         zk = np.zeros((m, n))
-        for i in range(3):
+        for i in range(5):
             zk, s1, s2, s3 = k_mean.kmeans_main(ku, 3, r1, r2, r3)    #k表示分为几簇，这里为2不变
             r1, r2, r3 = s1, s2, s3
         time10 = time.time()
         for i in range(m):
             for j in range(n):
                 if zk[i, j] == 0:
-                    ku[:, i, j] = r1
+                    ku[:, i, j] = [0, 0, 0, 0]
                 if zk[i, j] == 1:
-                    ku[:, i, j] = r2
+                    ku[:, i, j] = [0.5, 0.5, 0.5, 0.5]
                 if zk[i, j] == 2:
-                    ku[:, i, j] = r3
+                    ku[:, i, j] = [1, 1, 1, 1]
         time11 = time.time()
         #这里打印处理前与结果图
         # plt.subplot(4, 2, 1)
@@ -108,12 +108,18 @@ if pic.tongdaoshu == 3:
         # r3 = np.random.random(4)
         m, n = ku[0].shape
         zk = np.zeros((m, n))
-        for i in range(3):
+        for i in range(5):
             #zk, s1, s2, s3 = k_mean.kmeans_main(ku, 2, r1, r2, r3)  # k表示分为几簇，这里为2不变
             zk, s1, s2, s3 = k_mean.kmeans_main(ku, 2, r1, r2, 1)
             #r1, r2, r3 = s1, s2, s3
             r1, r2 = s1, s2
         time10 = time.time()
+        if np.average(r1) >= np.average(r2):
+            r1 = [1, 1, 1, 1]
+            r2 = [0, 0, 0, 0]
+        else:
+            r1 = [0, 0, 0, 0]
+            r2 = [1, 1, 1, 1]
         for i in range(m):
             for j in range(n):
                 if zk[i, j] == 0:
@@ -144,12 +150,14 @@ if pic.tongdaoshu == 3:
     else:
         print('fault')
         ku = [0]
+        time10 = time.time()
+        time11 = time.time()
     #或者是打印最后的结果
     result = (ku[0] * 255 + ku[1] * 255 + ku[2] * 255 + ku[3] * 255) / 4
-    min = np.min(result)
-    max = np.max(result)
-    result[result == min] = 0
-    result[result == max] = 255
+    # min = np.min(result)
+    # max = np.max(result)
+    # result[result == min] = 0
+    # result[result == max] = 255
     plt.imshow(result, cmap=plt.cm.binary, vmin=0, vmax=255)
     #plt.imshow(ku[0], cmap=plt.cm.binary, vmin=0, vmax=255)
     time12 = time.time()
@@ -159,6 +167,6 @@ elif pic.tongdaoshu == 1:            ##决定只做彩色图像了，以下废�
     u = [pic.gray, pic.IIH]
     uu = np.zeros_like(u)
     for i in range(2):
-        uu[i], Ru[i] = jinsi.ord_jinsi(u[i], lamda=1.5, dt=0.01)
+        uu[i]= jinsi.ord_jinsi(u[i], lamda=1.5, dt=0.01)
     plt.imshow(pic.IIH, cmap=plt.cm.binary, vmin=0, vmax=255)
     plt.show()
