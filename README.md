@@ -1,3 +1,5 @@
 # SAV_seg
-wo shi ruo zhi
-huhu
+测试用的图片在tu里
+主函数是main
+有些函数可能用不到
+编程臭，见谅
